@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using System.IO;
 
-namespace ErwinMayerLabs.RenameVSWindowTitle {
-    public partial class EditablePatternControl : UserControl {
+namespace ErwinMayerLabs.RenameVSWindowTitle
+{
+   public partial class EditablePatternControl : UserControl {
         private IWindowsFormsEditorService editorService;
         private PreviewRequiresAttribute.Requirement previewRequires;
 
@@ -103,6 +99,11 @@ namespace ErwinMayerLabs.RenameVSWindowTitle {
                         return;
                     }
                     var ad = Globals.GetActiveDocumentNameOrEmpty(activeDocument, activeWindow);
+                    if (string.IsNullOrEmpty(ad)) {
+                        this.lbPreview.Text = "please load any document or open any window to enable preview!";
+                        return;
+                    }
+                    ad = Globals.GetActiveDocumentPathOrEmpty(activeDocument, activeWindow);
                     if (string.IsNullOrEmpty(ad)) {
                         this.lbPreview.Text = "please load any document or open any window to enable preview!";
                         return;

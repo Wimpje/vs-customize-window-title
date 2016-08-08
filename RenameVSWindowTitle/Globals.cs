@@ -1,14 +1,15 @@
-﻿using System;
+﻿using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
-using EnvDTE;
-using EnvDTE80;
-using Microsoft.VisualStudio;
 
-namespace ErwinMayerLabs.RenameVSWindowTitle {
-    public static class Globals {
+namespace ErwinMayerLabs.RenameVSWindowTitle
+{
+   public static class Globals {
         public static DTE2 DTE;
 
         public const string SolutionSettingsOverrideExtension = ".rn.xml";
@@ -55,7 +56,20 @@ namespace ErwinMayerLabs.RenameVSWindowTitle {
             return "";
         }
 
-        public static string GetActiveConfigurationNameOrEmpty(Solution solution) {
+        public static string GetActiveDocumentPathOrEmpty(Document activeDocument, Window activeWindow)
+        {
+            if (activeDocument != null)
+            {
+               return Path.GetFullPath(activeDocument.FullName);
+            }
+            if (activeWindow != null && activeWindow.Caption != DTE.MainWindow.Caption)
+            {
+               return activeWindow.Caption;
+            }
+            return "";
+         }
+
+         public static string GetActiveConfigurationNameOrEmpty(Solution solution) {
             if (string.IsNullOrEmpty(solution?.FullName)) return "";
             var activeConfig = (SolutionConfiguration2)solution.SolutionBuild.ActiveConfiguration;
             return activeConfig != null ? activeConfig.Name : "";

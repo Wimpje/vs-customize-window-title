@@ -83,7 +83,7 @@ namespace ErwinMayerLabs.RenameVSWindowTitle {
         ///}
         ///
         ////* HTML5 display definitions
-        ///   ==================================== [rest of string was truncated]&quot;;.
+        ///   ============== [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string normalize {
             get {
@@ -162,6 +162,15 @@ namespace ErwinMayerLabs.RenameVSWindowTitle {
         internal static string tag_documentName {
             get {
                 return ResourceManager.GetString("tag_documentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active document or window full file path..
+        /// </summary>
+        internal static string tag_documentPath {
+            get {
+                return ResourceManager.GetString("tag_documentPath", resourceCulture);
             }
         }
         

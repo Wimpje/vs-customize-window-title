@@ -1,17 +1,17 @@
-﻿using System;
+﻿using EnvDTE;
+using EnvDTE80;
+using ErwinMayerLabs.Lib;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
-using EnvDTE;
-using EnvDTE80;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using System.Collections.Generic;
-using ErwinMayerLabs.Lib;
 
 // The PackageRegistration attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class
 // is a package.
@@ -19,8 +19,9 @@ using ErwinMayerLabs.Lib;
 // The InstalledProductRegistration attribute is used to register the information needed to show this package
 // in the Help/About dialog of Visual Studio.
 
-namespace ErwinMayerLabs.RenameVSWindowTitle {
-    [PackageRegistration(UseManagedResourcesOnly = true), InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400), ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string), ProvideMenuResource("Menus.ctmenu", 1), Guid(GuidList.guidRenameVSWindowTitle2PkgString)]
+namespace ErwinMayerLabs.RenameVSWindowTitle
+{
+   [PackageRegistration(UseManagedResourcesOnly = true), InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400), ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string), ProvideMenuResource("Menus.ctmenu", 1), Guid(GuidList.guidRenameVSWindowTitle2PkgString)]
     [ProvideOptionPage(typeof(GlobalSettingsPageGrid), "Rename VS Window Title", "Global rules", 0, 0, true)]
     [ProvideOptionPage(typeof(SettingsOverridesPageGrid), "Rename VS Window Title", "Solution-specific overrides", 51, 500, true)]
     [ProvideOptionPage(typeof(SupportedTagsGrid), "Rename VS Window Title", "Supported tags", 101, 1000, true)]
@@ -411,6 +412,7 @@ namespace ErwinMayerLabs.RenameVSWindowTitle {
 
         public static readonly string[] SupportedTags = {
             "documentName",
+            "documentPath",
             "projectName",
             "solutionName",
             "parentPath",
@@ -477,6 +479,8 @@ namespace ErwinMayerLabs.RenameVSWindowTitle {
                                 return Globals.GetWorkspaceOwnerNameOrEmpty(solution) ?? string.Empty;
                             case "documentName":
                                 return Globals.GetActiveDocumentNameOrEmpty(activeDocument, activeWindow) ?? string.Empty;
+                            case "documentPath":
+                                return Globals.GetActiveDocumentPathOrEmpty(activeDocument, activeWindow) ?? string.Empty;
                             case "vsMajorVersion":
                                 return Globals.VsMajorVersion.ToString(CultureInfo.InvariantCulture);
                             case "vsMajorVersionYear":
